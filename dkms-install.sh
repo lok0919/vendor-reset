@@ -14,4 +14,7 @@ git archive HEAD | tar -x -C $dir_name
 
 sed -i "s/PACKAGE_VERSION=\"0.1.1\"/PACKAGE_VERSION=\"${commit_id}\"/g" $dir_name/dkms.conf
 
-dkms install $dir_name
+dkms add $dir_name
+for k in /lib/modules/*; do
+    dkms install vendor-reset/$commit_id -k "$(basename "$k")"
+done
